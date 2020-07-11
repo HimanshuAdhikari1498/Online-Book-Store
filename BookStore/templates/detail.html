@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+	
+	<!--load all styles -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fonts/css/all.css') }}">
+    {% if title %}
+        <title>Book Store - {{ title }}</title>
+    {% else %}
+        <title>Book Store</title>
+    {% endif %}
+</head>
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="/static/images/logo.jpg" style="width:100%; max-width:300px;">
+                            </td>
+                            
+                            <td>
+                                Invoice No : 31BOST04{{orders.id}}<br>
+                                Date: {{ orders.order_date.strftime('%Y-%m-%d') }}<br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                BookStore<br>
+                                198 West 21th Floor,<br>
+                                Noida Uttar Pradesh<br>
+								Uttar Pradesh 110016
+                            </td>
+                            
+                            <td>
+                                {{orders.buyer.username}}<br>
+                                {{orders.buyer.email}}<br>
+                                {{orders.buyer.address}}<br>
+								{{orders.buyer.state}}-{{orders.buyer.pincode}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="heading">
+                <td>
+                    Book Name
+                </td>
+                
+                <td>
+                    Price
+                </td>
+            </tr>
+            {% for b in orderbooks %}
+            <tr class="item">
+                <td>
+                    {{ b.orderbook.title }}
+                </td>
+                
+                <td>
+                    &#8377;{{ b.orderbook.price }}.00
+                </td>
+            </tr>
+			{% endfor %}
+            
+            <tr class="total">
+                <td></td>
+                
+                <td>
+                   Total: &#8377;{{ orders.amount }}.00
+                </td>
+            </tr>
+			            
+			<tr class="heading">
+                <td>
+                    Payment Method
+                </td>
+                
+                <td>
+                    Total Amount(To pay)
+                </td>
+            </tr>
+            
+            <tr class="details">
+                <td>
+                    Cash on Delivery
+                </td>
+                
+                <td>
+                    &#8377;{{ orders.amount }}.00
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

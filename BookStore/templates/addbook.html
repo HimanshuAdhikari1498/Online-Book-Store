@@ -1,0 +1,126 @@
+{% extends "admin.html" %}
+{% block content %}
+	<div class="content-section">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">ADD BOOK</legend>
+                <div class="form-group">
+                    {{ form.title.label(class="form-control-label") }}
+
+                    {% if form.title.errors %}
+                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.title(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+				<div class="form-group">
+                    {{ form.author.label(class="form-control-label") }}
+
+                    {% if form.author.errors %}
+                        {{ form.author(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.author.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.author(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+				<div class="form-group">
+                    {{ form.publication.label(class="form-control-label") }}
+
+                    {% if form.publication.errors %}
+                        {{ form.publication(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.publication.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.publication(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+				<div class="form-group">
+                    {{ form.ISBN.label(class="form-control-label") }}
+
+                    {% if form.ISBN.errors %}
+                        {{ form.ISBN(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.ISBN.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.ISBN(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+				<div class="form-group">
+                    {{ form.content.label(class="form-control-label") }}
+
+                    {% if form.content.errors %}
+                        {{ form.content(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+				<div class="form-group">
+                    {{ form.price.label(class="form-control-label") }}
+
+                    {% if form.price.errors %}
+                        {{ form.price(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.price.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.price(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+				<div class="form-group">
+                    {{ form.piece.label(class="form-control-label") }}
+
+                    {% if form.piece.errors %}
+                        {{ form.piece(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.piece.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.piece(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.picture.label(class="form-control-label") }}
+					
+                    {% if form.picture.errors %}
+						{{ form.picture(class="form-control-file") }}
+						<div class="invalid-feedback">
+							{% for error in form.picture.errors %}
+								<span class="text-danger">{{ error }}</span></br>
+							{% endfor %}
+						</div>
+                    {% else %}
+                        {{ form.picture(class="form-control-file") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

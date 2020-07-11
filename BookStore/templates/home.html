@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for book in books %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='Book_Image/' + book.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('book_info', book_id=book.id) }}">{{ book.title }}</a></br>
+              <small class="text-muted">{{ book.author }}</small>
+            </div>
+            <p class="article-content">&#8377;{{ book.price }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

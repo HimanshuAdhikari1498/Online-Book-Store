@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for cart in carts %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='Book_Image/' + cart.cartbook.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <h3 class="book-title">{{ cart.cartbook.title }}</h3>
+              <small class="text-muted">{{ cart.cartbook.author }}</small>
+            </div>
+            <p class="article-content">&#8377;{{ cart.cartbook.price }}</p>
+          </div>
+        </article>
+    {% endfor %}
+	<article class="media content-section">
+		<h3 class="article-content">&#8377;{{ total }}</h3>
+	<div class="checkout">
+		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('checkout') }}">CheckOut</a>
+	</div>
+	</article>
+{% endblock content %}

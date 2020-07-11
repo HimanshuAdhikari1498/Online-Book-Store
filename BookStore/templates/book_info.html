@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+  <article class="media content-section">
+    <img class="book-img" src="{{ url_for('static', filename='Book_Image/' + book.image_file) }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <h2 class="book-title">{{ book.title }}</h2>
+        <h3><small class="text-muted">{{ book.author }}</small></h3>
+      </div>
+	  <h5 class="article-content">&#8377;{{ book.price }}</h5>
+	  <h6 class="article-content">About Book : </h6>
+      <p class="article-content">{{ book.content }}</h2>
+	  <h6 class="article-content">Publication : {{ book.publication }}</h6>
+      <div>
+		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('addcart',book_id=book.id) }}">Add to Cart</a>
+      </div>
+    </div>
+  </article>
+{% endblock content %}
