@@ -188,7 +188,20 @@ def cart():
     sum=0
     for cart in carts:
         sum=sum+cart.cartbook.price
-    return render_template('cart.html', title="cart",carts=carts,total=sum) 
+    return render_template('cart.html', title="cart",carts=carts,total=sum)    
+    
+    
+    
+@app.route("/cart/<int:cart_id>/delete_cart", methods=['POST'])
+@login_required
+def delete_cart(cart_id):
+    if current_user.is_authenticated:
+        cart = Cart.query.get_or_404(cart_id)
+        db.session.delete(cart)
+        db.session.commit()
+        flash('Book  has been deleted from Cart!', 'success')
+        return redirect(url_for('cart'))
+
 
 
 @app.route("/checkout")
@@ -218,6 +231,7 @@ def confirm_order():
         print(oid)
         for cart in carts:
             orderbook=OrderBook(user_id=current_user.id,book_id=cart.cartbook.id,order_id=oid)
+            cart.cartbook.piece=cart.cartbook.piece-1
             db.session.add(orderbook)
             db.session.commit()
             flash('Book has been Ordered Successfully', 'success')
@@ -242,4 +256,11 @@ def detail(order_id):
     
     
     
+
+@app.route("/cancel",methods=['POST'])
+def cancel():
+    flash('Transaction has been Cancelled', 'success')
+    return redirect(url_for('cart'))
+
+
     

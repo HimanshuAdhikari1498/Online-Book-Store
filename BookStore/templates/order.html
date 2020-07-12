@@ -1,56 +1,62 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
-          <h2 class="article-title"><center>My Orders</h2>
-	</div>
-	<div class="content-section">
-		<div class="row d-flex mb-5 contact-info">
-			<div class="col-md-3 d-flex">
-				<div class="info bg-white p-4">
-					<h4 class="book-title">UserName</h4>
-			</div>
-			</div>
-			<div class="col-md-3 d-flex">
-				<div class="info bg-white p-4">
-					<h4 class="book-title">Order Date</h4>
-				</div>
-			</div>
-			<div class="col-md-3 d-flex">
-				<div class="info bg-white p-4">
-					<h4 class="book-title">Amount</h4>
-				</div>
-			</div>
-			<div class="col-md-3 d-flex">
-				<div class="info bg-white p-4">
-					<h4 class="book-title">See Details</h4>
-				</div>
-			</div>
+	{% if not orders %}
+		<div class="content-section">
+          <h2 class="article-title"><center>You have not Buy Anything.Buy It!!!!</h2>
 		</div>
-	{% for order in orders %}
-	<div class="content-section">
-		<div class="row d-flex mb-5 contact-info">
-			<div class="col-md-3 d-flex">
-				<div class="info bg-white p-4">
-					<h4>{{ current_user.username }}</h4>
-			</div>
-			</div>
-			<div class="col-md-3 d-flex">
-				<div class="info bg-white p-4">
-					<h4>{{ order.order_date.strftime('%Y-%m-%d') }}</h4>
-				</div>
-			</div>
-			<div class="col-md-3 d-flex">
-				<div class="info bg-white p-4">
-					<h4>&#8377;{{ order.amount }}</h4>
-				</div>
-			</div>
-			<div class="col-md-3 d-flex">
-				<div class="info bg-white p-4">
-					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('detail',order_id=order.id) }}">Details</a>
-				</div>
-			</div>
+	{% else %}
+		<div class="content-section">
+			<h2 class="article-title"><center>My Orders</h2>
 		</div>
-	</div>
-    {% endfor %}
-	</div>
+		<div class="content-section">
+			<div class="row d-flex mb-5 contact-info">
+				<div class="col-md-3 d-flex">
+					<div class="info bg-white p-4">
+						<h4 class="book-title">UserName</h4>
+					</div>
+				</div>
+				<div class="col-md-3 d-flex">
+					<div class="info bg-white p-4">
+						<h4 class="book-title">Order Date</h4>
+					</div>
+				</div>
+				<div class="col-md-3 d-flex">
+					<div class="info bg-white p-4">
+						<h4 class="book-title">Amount</h4>
+					</div>
+				</div>
+				<div class="col-md-3 d-flex">
+					<div class="info bg-white p-4">
+						<h4 class="book-title">See Details</h4>
+					</div>
+				</div>
+			</div>
+			{% for order in orders %}
+				<div class="content-section">
+					<div class="row d-flex mb-5 contact-info">
+						<div class="col-md-3 d-flex">
+							<div class="info bg-white p-4">
+								<h4>{{ current_user.username }}</h4>
+							</div>
+						</div>
+						<div class="col-md-3 d-flex">
+							<div class="info bg-white p-4">
+								<h4>{{ order.order_date.strftime('%Y-%m-%d') }}</h4>
+							</div>
+						</div>
+						<div class="col-md-3 d-flex">
+							<div class="info bg-white p-4">
+								<h4>&#8377;{{ order.amount }}</h4>
+							</div>
+						</div>
+						<div class="col-md-3 d-flex">
+							<div class="info bg-white p-4">
+								<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('detail',order_id=order.id) }}">Details</a>
+							</div>
+						</div>
+					</div>
+				</div>
+		{% endfor %}
+		</div>
+	{% endif %}
 {% endblock content %}

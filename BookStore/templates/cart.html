@@ -1,21 +1,52 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for cart in carts %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='Book_Image/' + cart.cartbook.image_file) }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <h3 class="book-title">{{ cart.cartbook.title }}</h3>
-              <small class="text-muted">{{ cart.cartbook.author }}</small>
-            </div>
-            <p class="article-content">&#8377;{{ cart.cartbook.price }}</p>
-          </div>
-        </article>
-    {% endfor %}
-	<article class="media content-section">
-		<h3 class="article-content">&#8377;{{ total }}</h3>
-	<div class="checkout">
-		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('checkout') }}">CheckOut</a>
-	</div>
-	</article>
+	{% if total==0: %}
+		<article class="media content-section">
+			<div class="media-body">
+				<h3 class="article-title"><center>Your Cart is Empty</h3>
+			</div>
+		</article>
+	{% else: %}	
+		{% for cart in carts %}
+			<article class="media content-section">
+				<img class="rounded-circle article-img" src="{{ url_for('static', filename='Book_Image/' + cart.cartbook.image_file) }}">
+					<div class="media-body">
+						<div class="article-metadata">
+							<div style="float:right">
+								 <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+							</div>
+							<h3 class="book-title">{{ cart.cartbook.title }}</h3>
+							<small class="text-muted">{{ cart.cartbook.author }}</small>
+						</div>
+					<p class="article-content">&#8377;{{ cart.cartbook.price }}</p>
+					</div>
+			</article>
+			  <!-- Modal -->
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="deleteModalLabel">Delete Book from Cart?</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<form action="{{ url_for('delete_cart', cart_id=cart.id) }}" method="POST">
+								<input class="btn btn-danger" type="submit" value="Delete">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		<article class="media content-section">
+			<h3 class="article-content">Total&nbsp;:</h3>
+			<h3 class="article-content">&nbsp;&#8377;{{ total }}</h3>
+			<div class="checkout">
+				<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('checkout') }}">CheckOut</a>
+			</div>
+		</article>
+	{% endif %}
 {% endblock content %}
