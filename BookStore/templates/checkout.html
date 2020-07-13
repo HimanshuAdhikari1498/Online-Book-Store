@@ -6,6 +6,9 @@
         <div class="media-body">
           <h2 class="account-heading">{{ current_user.username }}</h2>
           <p class="text-secondary">{{ current_user.email }}</p>
+		  <div style="float:right">
+			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('account') }}">Edit</a>
+		  </div>
 		  <h6 class="text-secondary">{{ current_user.address }}</h6>
 		  <p class="text-secondary">{{ current_user.state }}</p>
 		  <p class="text-secondary">{{ current_user.pincode }}</p>
@@ -25,7 +28,12 @@
         </article>
     {% endfor %}
 	<article class="media content-section">
-		<h3 class="article-content">&#8377;{{ total }}</h3>
+		<h3 class="book-title">Payment Mode&nbsp;:</h3>
+		<h3 class="article-content mode">Cash On Delivery</h3>
+	</article>
+	<article class="media content-section">
+		<h3 class="article-content">Total&nbsp;:</h3>
+		<h3 class="article-content">&nbsp;&#8377;{{ total }}</h3>
 	<div class="checkout">
 		<div style="float:right">
 			<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Cancel</button>

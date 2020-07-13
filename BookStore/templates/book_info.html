@@ -11,9 +11,13 @@
 	  <h6 class="article-content">About Book : </h6>
       <p class="article-content">{{ book.content }}</h2>
 	  <h6 class="article-content">Publication : {{ book.publication }}</h6>
-      <div>
-		<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('addcart',book_id=book.id) }}">Add to Cart</a>
-      </div>
+	  {% if book.piece==0: %}
+		<h2 class="book-title">Out Of Stock</h2>
+	  {% else: %}
+		<div>
+			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('addcart',book_id=book.id) }}">Add to Cart</a>
+		</div>
+	  {% endif %}
     </div>
   </article>
 {% endblock content %}
