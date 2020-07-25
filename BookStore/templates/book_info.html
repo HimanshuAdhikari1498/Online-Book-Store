@@ -15,7 +15,7 @@
 		<h2 class="book-title">Out Of Stock</h2>
 	  {% else: %}
 		<div>
-			<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('addcart',book_id=book.id) }}">Add to Cart</a>
+			<a class="btn btn-success btn-sm mt-1 mb-1" href="{{ url_for('addcart',book_id=book.id) }}">Add to Cart</a>
 		</div>
 	  {% endif %}
     </div>

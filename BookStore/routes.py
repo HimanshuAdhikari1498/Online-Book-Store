@@ -3,7 +3,7 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from BookStore import app, db, bcrypt
-from BookStore.forms import RegistrationForm, LoginForm, UpdateAccountForm, AdminLoginForm, AddBookForm
+from BookStore.forms import RegistrationForm, LoginForm, UpdateAccountForm, AdminLoginForm, AddBookForm, UpdateBookForm
 from BookStore.models import User,Admin,Book,Cart,Order,OrderBook
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -108,7 +108,8 @@ def account():
 @app.route("/admin")
 def admin():
     if current_user.is_authenticated:
-        return render_template('admin.html', title='Admin Page')
+        books=Book.query.all()
+        return render_template('admin.html', title='Admin Page',books=books)
     else:
         return redirect(url_for('adminlogin'))
     return render_template('admin.html', title='Admin Page')
@@ -128,6 +129,7 @@ def adminlogin():
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
+
 
 
 
@@ -158,6 +160,55 @@ def addbook():
         return redirect(url_for('admin'))
     return render_template('addbook.html', title='Add Book',form=form) 
     
+
+
+@app.route("/update_book/<int:book_id>",methods=['GET', 'POST'])
+@login_required
+def update_book(book_id):
+    form = UpdateBookForm()
+    book = Book.query.get_or_404(book_id)
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_book_picture(form.picture.data)
+            book.image_file=picture_file
+        book.title=form.title.data
+        book.author=form.author.data
+        book.publication=form.publication.data
+        book.ISBN=form.ISBN.data
+        book.content=form.content.data
+        book.price=form.price.data
+        book.piece=form.piece.data
+        db.session.commit()
+        flash('Book Details has been updated!', 'success')
+        return redirect(url_for('admin'))
+    elif request.method == 'GET':
+        form.title.data = book.title
+        form.author.data = book.author
+        form.publication.data=book.publication
+        form.ISBN.data=book.ISBN
+        form.content.data=book.content
+        form.price.data=book.price
+        form.piece.data=book.piece
+    return render_template('addbook.html', title='Update_book', form=form,book=book)
+
+
+
+
+@app.route("/delete_book/<int:book_id>", methods=['GET', 'POST'])
+@login_required
+def delete_book(book_id):
+    if current_user.is_authenticated:
+        book = Book.query.get_or_404(book_id)
+        cart=Cart.query.filter_by(book_id=book.id).all()
+        ob=OrderBook.query.filter_by(book_id=book.id).all()
+        if cart==[] and ob==[]:
+            db.session.delete(book)
+            db.session.commit()
+            flash('Book  has been deleted from Store!', 'success')
+        else:
+            flash('Book Can not be deleted from Store!', 'danger')
+        return redirect(url_for('admin'))
+
 
 
 @app.route("/book_info/<int:book_id>")
@@ -228,13 +279,13 @@ def confirm_order():
         db.session.add(order)
         db.session.commit()
         oid=order.id
-        print(oid)
         for cart in carts:
             orderbook=OrderBook(user_id=current_user.id,book_id=cart.cartbook.id,order_id=oid)
             cart.cartbook.piece=cart.cartbook.piece-1
             db.session.add(orderbook)
             db.session.commit()
-            flash('Book has been Ordered Successfully', 'success')
+            
+        flash('Book has been Ordered Successfully', 'success')
         Cart.query.filter_by(user_id=current_user.id).delete()
         db.session.commit()
         return redirect(url_for('order'))

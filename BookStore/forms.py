@@ -86,3 +86,14 @@ class AddBookForm(FlaskForm):
         isbn = Book.query.filter_by(ISBN=ISBN.data).first()
         if isbn:
             raise ValidationError('That ISBN Book is already in Store.') 
+            
+class UpdateBookForm(FlaskForm):
+    title = StringField('Title',validators=[DataRequired()])
+    author = StringField('Author',validators=[DataRequired()])
+    publication = StringField('Publication',validators=[DataRequired()])
+    ISBN = StringField('ISBN',validators=[DataRequired()]) 
+    content = TextAreaField ('Content',validators=[DataRequired()])
+    price = StringField('Price',validators=[DataRequired()])
+    piece = StringField('Piece',validators=[DataRequired()])
+    picture = FileField('Add Book Picture', validators=[FileAllowed(['jpg', 'png'])])
+    submit = SubmitField('Update Book')            
